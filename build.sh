@@ -33,7 +33,7 @@ if [[ -z ${VENDOR} || -z ${CODENAME} ]]; then
     export CODENAME=$(echo ${VenCode} | cut -d'_' -f2-)
 	unset VenCode
 fi
-if [[ -z ${DT_LINK} ]] then
+if [[ -z ${DT_LINK} ]]; then
     # Assume the workflow runs in the device tree with the current checked-out branch
     DT_BR=${GITHUB_REF##*/}
     export DT_LINK="https://github.com/${GITHUB_REPOSITORY} -b ${DT_BR}"
@@ -88,12 +88,12 @@ mkdir -p /home/runner/extra &>/dev/null
 {
     cd /home/runner/extra || exit 1
     wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
-    tar xzf make-4.3.tar.gz && cd make-*/
+    tar xzf make-4.3.tar.gz && cd make-*/ || exit
     ./configure && bash ./build.sh && sudo install ./make /usr/local/bin/make
     cd /home/runner/extra || exit 1
     git clone -q https://github.com/ccache/ccache.git
     cd ccache && git checkout -q v4.2
-    mkdir build && cd build
+    mkdir build && cd build || exit
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DZSTD_FROM_INTERNET=ON ..
     make -j6 && sudo make install
 } &>/dev/null
@@ -128,9 +128,9 @@ printf "Initializing Repo\n"
 if [[ "${MANIFEST}" == "orangefox10" ]]; then
     printf "Manually Preparing Ofox Repos For Dynamic Partition Device\n"
     git clone https://github.com/CarbonatedBlack/ofox-sync.git
-    cd ofox-sync
+    cd ofox-sync || exit
     bash ./get_fox_10.sh /home/runner/builder
-    cd /home/runner/builder
+    cd /home/runner/builder || exit
 else
     repo init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips
     repo sync -c -q --force-sync --no-clone-bundle --no-tags -j6 2>/dev/null
@@ -154,7 +154,7 @@ echo "::group::Extra Commands"
 if [[ ! -z "$EXTRA_CMD" ]]; then
     printf "Executing Extra Commands\n"
     eval "${EXTRA_CMD}"
-    cd /home/runner/builder
+    cd /home/runner/builder || exit
 fi
 echo "::endgroup::"
 
