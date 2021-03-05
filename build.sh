@@ -50,6 +50,8 @@ if [[ ! ${TZ} == "UTC" ]]; then
 fi
 echo "::endgroup::"
 
+printf "We are going to build ${FLAVOR}-flavored ${TARGET} for ${CODENAME} from the manufacturer ${VENDOR}\n"
+
 echo "::group::Installation Of Recommended Programs"
 export \
     DEBIAN_FRONTEND=noninteractive \
@@ -132,6 +134,7 @@ if [[ "${MANIFEST}" == "orangefox10" ]]; then
     bash ./get_fox_10.sh /home/runner/builder
     cd /home/runner/builder || exit
 else
+    printf "We will be using %s for Manifest source\n" "${MANIFEST}"
     repo init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips
     repo sync -c -q --force-sync --no-clone-bundle --no-tags -j6 2>/dev/null
 fi
