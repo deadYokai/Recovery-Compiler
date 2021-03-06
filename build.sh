@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -eo pipefail
 
 printf "\e[1;32m \u2730 Recovery Compiler\e[0m\n\n"
 
@@ -176,7 +176,7 @@ lunch omni_${CODENAME}-${FLAVOR}
 echo "::endgroup::"
 
 echo "::group::Compilation"
-mka ${TARGET}
+mka ${TARGET} || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
 # Export VENDOR, CODENAME and BuildPath for next steps
