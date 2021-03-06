@@ -1,4 +1,4 @@
-#!/bin/bash -eo pipefail
+#!/bin/bash
 
 printf "\e[1;32m \u2730 Recovery Compiler\e[0m\n\n"
 
