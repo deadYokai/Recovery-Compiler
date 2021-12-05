@@ -56,7 +56,7 @@ sudo apt-get -qqy install --no-install-recommends \
     pngcrush imagemagick optipng advancecomp ccache \
     &>/dev/null
 printf "Cleaning Some Programs...\n"
-sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless &>/dev/null
+sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless python &>/dev/null
 sudo apt-get -qy clean &>/dev/null && sudo apt-get -qy autoremove &>/dev/null
 sudo rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* &>/dev/null
 #Force link python3
@@ -99,6 +99,8 @@ echo "::group::Source Repo Sync"
 printf "Initializing Repo\n"
 python --version
 python3 --version
+#Force force force alias
+alias python="python3"
 printf "We will be using %s for Manifest source\n" "${MANIFEST}"
 repo init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips || { printf "Repo Initialization Failed.\n"; exit 1; }
 repo sync -c -q --force-sync --no-clone-bundle --no-tags -j6 || { printf "Git-Repo Sync Failed.\n"; exit 1; }
