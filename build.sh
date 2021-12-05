@@ -47,7 +47,7 @@ sudo apt-get -qqy install --no-install-recommends \
     lsb-core lsb-security patchutils bc \
     android-sdk-platform-tools adb fastboot \
     openjdk-8-jdk ca-certificates-java maven \
-    python3-all-dev python-is-python3 \
+    python3 python3-all-dev python-is-python3 \
     lzip lzop xzdec pixz libzstd-dev lib32z1-dev \
     exfat-utils exfat-fuse \
     build-essential gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
@@ -92,6 +92,8 @@ cd ~/builder || exit 1
 
 echo "::group::Source Repo Sync"
 printf "Initializing Repo\n"
+python --version
+python3 --version
 printf "We will be using %s for Manifest source\n" "${MANIFEST}"
 repo init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips || { printf "Repo Initialization Failed.\n"; exit 1; }
 repo sync -c -q --force-sync --no-clone-bundle --no-tags -j6 || { printf "Git-Repo Sync Failed.\n"; exit 1; }
