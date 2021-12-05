@@ -44,7 +44,7 @@ export \
     JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 sudo apt-get -qqy update &>/dev/null
 sudo apt-get -qqy install --no-install-recommends \
-    lsb-core lsb-security patchutils bc \
+    ubuntu-minimal lsb-core lsb-security patchutils bc \
     android-sdk-platform-tools adb fastboot \
     openjdk-8-jdk ca-certificates-java maven \
     python3.8 python3-pip python3-all-dev python-is-python3 \
