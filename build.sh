@@ -47,7 +47,7 @@ sudo apt-get -qqy install --no-install-recommends \
     lsb-core lsb-security patchutils bc \
     android-sdk-platform-tools adb fastboot \
     openjdk-8-jdk ca-certificates-java maven \
-    python3 python3-all-dev python-is-python3 \
+    python3 python3-pip python3-all-dev python-is-python3 \
     lzip lzop xzdec pixz libzstd-dev lib32z1-dev \
     exfat-utils exfat-fuse \
     build-essential gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
@@ -59,6 +59,11 @@ printf "Cleaning Some Programs...\n"
 sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless &>/dev/null
 sudo apt-get -qy clean &>/dev/null && sudo apt-get -qy autoremove &>/dev/null
 sudo rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* &>/dev/null
+#Force link python3
+[ -e /usr/bin/python ] && sudo rm -- /usr/bin/python
+sudo ln -s /usr/bin/python3 /usr/bin/python &>/dev/null
+[ -e /usr/bin/pip ] && sudo rm -- /usr/bin/pip
+sudo ln -s /usr/bin/pip3 /usr/bin/pip &>/dev/null
 echo "::endgroup::"
 
 echo "::group::Installation Of git-repo"
