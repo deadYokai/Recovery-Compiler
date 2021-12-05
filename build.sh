@@ -69,14 +69,12 @@ chmod a+rx ./repo && sudo mv ./repo /usr/local/bin/
 echo "::endgroup::"
 
 echo "::group::Installation Of Latest make"
-mkdir -p ~/extra &>/dev/null
-{
-    cd ~/extra || exit 1
-    wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
-    tar xzf make-4.3.tar.gz && cd make-*/ || exit
-    ./configure && bash ./build.sh && sudo install ./make /usr/local/bin/make
-} &>/dev/null
-cd ~ || exit 1
+mkdir -p ~/extra
+cd ~/extra 
+wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
+tar xzf make-4.3.tar.gz && cd make-*/ 
+./configure && bash ./build.sh && sudo install ./make /usr/local/bin/make
+cd ~
 rm -rf ~/extra
 echo "::endgroup::"
 
