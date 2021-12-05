@@ -1,17 +1,17 @@
 #!/bin/bash
 
-printf "\e[1;32m Recovery Compiler\e[0m\n\n"
+printf "\e[1;32m \e[1m Recovery Compiler\e[0m\n\n"
 
-echo "::group::Free Space Checkup"
+echo "༄Free Space Checkup"
 if [[ ! $(df / --output=avail | tail -1 | awk '{print $NF}') -ge 41943040 ]]; then
     printf "Please use 'slimhub_actions@main' Action prior to this Recovery Compiler Action to gain at least 40 GB space\n"
     exit 1
 else
     printf "You have %s space available\n" "$(df -h / --output=avail | tail -1 | awk '{print $NF}')"
 fi
-echo "::endgroup::"
+printf "༄\n"
 
-echo "::group::Mandatory Variables Checkup"
+echo "༄Mandatory Variables Checkup"
 if [[ -z ${MANIFEST} ]]; then
     printf "Please Provide A Manifest URL with/without Branch\n"
     exit 1
@@ -33,11 +33,11 @@ export TZ=${TZ:-UTC}
 if [[ ! ${TZ} == "UTC" ]]; then
     sudo timedatectl set-timezone ${TZ}
 fi
-echo "::endgroup::"
+printf "༄\n"
 
 printf "We are going to build ${FLAVOR}-flavored ${TARGET} for ${CODENAME} from the manufacturer ${VENDOR}\n"
 
-echo "::group::Installation Of Recommended Programs"
+echo "༄Installation Of Recommended Programs"
 export \
     DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
@@ -63,47 +63,46 @@ sudo rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* &>/dev/null
 sudo ln -s /usr/bin/python3 /usr/bin/python &>/dev/null
 [ -e /usr/bin/pip ] && sudo rm -- /usr/bin/pip
 sudo ln -s /usr/bin/pip3 /usr/bin/pip &>/dev/null
-echo "::endgroup::"
+printf "༄\n"
 
-echo "::group::Installation Of git-repo"
+echo "༄Installation Of git-repo"
 cd ~|| exit 1
 printf "Adding latest stable git-repo binary...\n"
 curl -sL https://storage.googleapis.com/git-repo-downloads/repo > repo
 chmod a+rx ./repo && sudo mv ./repo /usr/local/bin/
-echo "::endgroup::"
+printf "༄\n"
 
-echo "::group::Doing Some Random Stuff"
+printf "༄Doing Some Random Stuff"
 if [ -e /lib/x86_64-linux-gnu/libncurses.so.6 ] && [ ! -e /usr/lib/x86_64-linux-gnu/libncurses.so.5 ]; then
     ln -s /lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5
 fi
 export \
     PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
-    USE_CCACHE=1 CCACHE_COMPRESS=1 CCACHE_COMPRESSLEVEL=8 CCACHE_DIR=/opt/ccache \
+    USE_CCACHE=1 CCACHE_COMPRESS=1 CCACHE_COMPRESSLEVEL=8 \
     TERM=xterm-256color
 . ~/.bashrc 2>/dev/null
-echo "::endgroup::"
 
-echo "::group::Setting ccache"
-mkdir -p /opt/ccache &>/dev/null
+printf "༄Setting ccache"
+#mkdir -p /opt/ccache &>/dev/null
 #sudo chown $(whoami):docker /opt/ccache
-CCACHE_DIR=/opt/ccache ccache -M 5G &>/dev/null
+ccache -M 5G &>/dev/null
 printf "All Preparation Done.\nReady To Build Recoveries...\n"
-echo "::endgroup::"
+printf "༄\n"
 
 # cd To An Absolute Path
 mkdir -p ~/builder &>/dev/null
 cd ~/builder || exit 1
 
-echo "::group::Source Repo Sync"
+printf "༄Source Repo Sync"
 printf "Initializing Repo\n"
 python --version
 python3 --version
 printf "We will be using %s for Manifest source\n" "${MANIFEST}"
 repo --color=always init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips || { printf "Repo Initialization Failed.\n"; exit 1; }
 repo --color=always sync -c -q --force-sync --no-clone-bundle --no-tags -j6 || { printf "Git-Repo Sync Failed.\n"; exit 1; }
-echo "::endgroup::"
+printf "༄\n"
 
-echo "::group::Device and Kernel Tree Cloning"
+printf "༄Device and Kernel Tree Cloning"
 printf "Cloning Device Tree\n"
 git clone ${DT_LINK} --depth=1 device/${VENDOR}/${CODENAME}
 # omni.dependencies file is a must inside DT, otherwise lunch fails
@@ -114,28 +113,23 @@ if [[ ! -z "${KERNEL_LINK}" ]]; then
 else
     printf "Using Prebuilt Kernel For The Build.\n"
 fi
-echo "::endgroup::"
+printf "༄\n"
 
-echo "::group::Extra Commands"
 if [[ ! -z "$EXTRA_CMD" ]]; then
     printf "Executing Extra Commands\n"
     eval "${EXTRA_CMD}"
     cd ~/builder 
 fi
-echo "::endgroup::"
 
-echo "::group::Pre-Compilation"
-printf "Compiling Recovery...\n"
+printf "༄Compiling Recovery...\n"
 export ALLOW_MISSING_DEPENDENCIES=true
 
 source build/envsetup.sh
 lunch omni_${CODENAME}-${FLAVOR} || { printf "Compilation failed.\n"; exit 1; }
-echo "::endgroup::"
 
-echo "::group::Compilation"
 mka ${TARGET} || { printf "Compilation failed.\n"; exit 1; }
 #make -j1 ${TARGET} || { printf "Compilation failed.\n"; exit 1; }
-echo "::endgroup::"
+printf "༄Finish"
 
 # Export VENDOR, CODENAME and BuildPath for next steps
 export "VENDOR=${VENDOR}"
