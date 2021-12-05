@@ -2,14 +2,6 @@
 
 printf "\e[1;32m \u2730 Recovery Compiler\e[0m\n\n"
 
-# Echo Loop
-while ((${SECONDS_LEFT:=10} > 0)); do
-    printf "Please wait %.fs ...\n" "${SECONDS_LEFT}"
-    sleep 1
-    SECONDS_LEFT=$((SECONDS_LEFT - 1))
-done
-unset SECONDS_LEFT
-
 echo "::group::Free Space Checkup"
 if [[ ! $(df / --output=avail | tail -1 | awk '{print $NF}') -ge 41943040 ]]; then
     printf "Please use 'slimhub_actions@main' Action prior to this Recovery Compiler Action to gain at least 40 GB space\n"
@@ -25,24 +17,17 @@ if [[ -z ${MANIFEST} ]]; then
     exit 1
 fi
 if [[ -z ${VENDOR} || -z ${CODENAME} ]]; then
-    # Assume the workflow runs in the device tree
-    # And the naming is exactly like android_device_vendor_codename(_split_codename)(-pbrp)
-    # Optimized for PBRP Device Trees
-	VenCode=$(echo ${GITHUB_REPOSITORY#*/} | sed 's/android_device_//;s/-pbrp//;')
-    export VENDOR=$(echo ${VenCode} | cut -d'_' -f1)
-    export CODENAME=$(echo ${VenCode} | cut -d'_' -f2-)
-	unset VenCode
+    export VENDOR=oukitel
+    export CODENAME=c18pro
 fi
 if [[ -z ${DT_LINK} ]]; then
-    # Assume the workflow runs in the device tree with the current checked-out branch
-    DT_BR=${GITHUB_REF##*/}
-    export DT_LINK="https://github.com/${GITHUB_REPOSITORY} -b ${DT_BR}"
+    export DT_LINK="https://github.com/android_device_${VENDOR}_${CODENAME}-pbrp -b android-10.0"
 	unset DT_BR
 fi
 # Default TARGET will be recoveryimage if not provided
 export TARGET=${TARGET:-recoveryimage}
 # Default FLAVOR will be eng if not provided
-export FLAVOR=${FLAVOR:-eng}
+export FLAVOR=${FLAVOR:-userdebug}
 # Default TZ (Timezone) will be set as UTC if not provided
 export TZ=${TZ:-UTC}
 if [[ ! ${TZ} == "UTC" ]]; then
@@ -85,23 +70,23 @@ tar -xzf ghr_*_amd64.tar.gz --wildcards 'ghr*/ghr' --strip-components 1 && rm -r
 chmod a+rx ./repo && chmod a+x ./ghr && sudo mv ./repo ./ghr /usr/local/bin/
 echo "::endgroup::"
 
-echo "::group::Installation Of Latest make and ccache"
-mkdir -p /home/runner/extra &>/dev/null
-{
-    cd /home/runner/extra || exit 1
-    wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
-    tar xzf make-4.3.tar.gz && cd make-*/ || exit
-    ./configure && bash ./build.sh && sudo install ./make /usr/local/bin/make
-    cd /home/runner/extra || exit 1
-    git clone -q https://github.com/ccache/ccache.git
-    cd ccache && git checkout -q v4.2
-    mkdir build && cd build || exit
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DZSTD_FROM_INTERNET=ON ..
-    make -j6 && sudo make install
-} &>/dev/null
-cd /home/runner || exit 1
-rm -rf /home/runner/extra
-echo "::endgroup::"
+# echo "::group::Installation Of Latest make and ccache"
+# mkdir -p /home/runner/extra &>/dev/null
+# {
+#     cd /home/runner/extra || exit 1
+#     wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
+#     tar xzf make-4.3.tar.gz && cd make-*/ || exit
+#     ./configure && bash ./build.sh && sudo install ./make /usr/local/bin/make
+#     cd /home/runner/extra || exit 1
+#     git clone -q https://github.com/ccache/ccache.git
+#     cd ccache && git checkout -q v4.2
+#     mkdir build && cd build || exit
+#     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DZSTD_FROM_INTERNET=ON ..
+#     make -j6 && sudo make install
+# } &>/dev/null
+# cd /home/runner || exit 1
+# rm -rf /home/runner/extra
+# echo "::endgroup::"
 
 echo "::group::Doing Some Random Stuff"
 if [ -e /lib/x86_64-linux-gnu/libncurses.so.6 ] && [ ! -e /usr/lib/x86_64-linux-gnu/libncurses.so.5 ]; then
@@ -111,7 +96,7 @@ export \
     PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     USE_CCACHE=1 CCACHE_COMPRESS=1 CCACHE_COMPRESSLEVEL=8 CCACHE_DIR=/opt/ccache \
     TERM=xterm-256color
-. /home/runner/.bashrc 2>/dev/null
+. ~/.bashrc 2>/dev/null
 echo "::endgroup::"
 
 echo "::group::Setting ccache"
@@ -122,22 +107,14 @@ printf "All Preparation Done.\nReady To Build Recoveries...\n"
 echo "::endgroup::"
 
 # cd To An Absolute Path
-mkdir -p /home/runner/builder &>/dev/null
-cd /home/runner/builder || exit 1
+mkdir -p ~/builder &>/dev/null
+cd ~/builder || exit 1
 
 echo "::group::Source Repo Sync"
 printf "Initializing Repo\n"
-if [[ "${MANIFEST}" == "orangefox10" ]]; then
-    printf "Manually Preparing Ofox Repos For Dynamic Partition Device\n"
-    git clone https://github.com/CarbonatedBlack/ofox-sync.git
-    cd ofox-sync || exit
-    bash ./get_fox_10.sh /home/runner/builder
-    cd /home/runner/builder || exit
-else
-    printf "We will be using %s for Manifest source\n" "${MANIFEST}"
-    repo init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips || { printf "Repo Initialization Failed.\n"; exit 1; }
-    repo sync -c -q --force-sync --no-clone-bundle --no-tags -j6 || { printf "Git-Repo Sync Failed.\n"; exit 1; }
-fi
+printf "We will be using %s for Manifest source\n" "${MANIFEST}"
+repo init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips || { printf "Repo Initialization Failed.\n"; exit 1; }
+repo sync -c -q --force-sync --no-clone-bundle --no-tags -j6 || { printf "Git-Repo Sync Failed.\n"; exit 1; }
 echo "::endgroup::"
 
 echo "::group::Device and Kernel Tree Cloning"
@@ -157,7 +134,7 @@ echo "::group::Extra Commands"
 if [[ ! -z "$EXTRA_CMD" ]]; then
     printf "Executing Extra Commands\n"
     eval "${EXTRA_CMD}"
-    cd /home/runner/builder || exit
+    cd ~/builder || exit
 fi
 echo "::endgroup::"
 
@@ -172,7 +149,7 @@ export ALLOW_MISSING_DEPENDENCIES=true
 # and then `source` and `lunch` again
 
 source build/envsetup.sh
-lunch omni_${CODENAME}-${FLAVOR}
+lunch omni_${CODENAME}-${FLAVOR} || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
 echo "::group::Compilation"
@@ -180,8 +157,8 @@ mka ${TARGET} || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
 # Export VENDOR, CODENAME and BuildPath for next steps
-echo "VENDOR=${VENDOR}" >> ${GITHUB_ENV}
-echo "CODENAME=${CODENAME}" >> ${GITHUB_ENV}
-echo "BuildPath=/home/runner/builder" >> ${GITHUB_ENV}
+export "VENDOR=${VENDOR}"
+export "CODENAME=${CODENAME}"
+export "BuildPath=~/builder"
 
 # TODO:: Add GitHub Release Script Here
