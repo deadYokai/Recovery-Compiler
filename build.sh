@@ -1,6 +1,6 @@
 #!/bin/bash
 
-printf "\e[1;32m \u2730 Recovery Compiler\e[0m\n\n"
+printf "\e[1;32m Recovery Compiler\e[0m\n\n"
 
 echo "::group::Free Space Checkup"
 if [[ ! $(df / --output=avail | tail -1 | awk '{print $NF}') -ge 41943040 ]]; then
@@ -53,7 +53,7 @@ sudo apt-get -qqy install --no-install-recommends \
     gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
     libxml2-utils xsltproc expat re2c libxml2-utils xsltproc expat re2c \
     libreadline-gplv2-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
-    pngcrush imagemagick optipng advancecomp \
+    pngcrush imagemagick optipng advancecomp ccache \
     &>/dev/null
 printf "Cleaning Some Programs...\n"
 sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless &>/dev/null
@@ -65,28 +65,20 @@ echo "::group::Installation Of git-repo and ghr"
 cd ~|| exit 1
 printf "Adding latest stable git-repo and ghr binary...\n"
 curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > repo
-curl -s https://api.github.com/repos/tcnksm/ghr/releases/latest | jq -r '.assets[] | select(.browser_download_url | contains("linux_amd64")) | .browser_download_url' | wget -qi -
-tar -xzf ghr_*_amd64.tar.gz --wildcards 'ghr*/ghr' --strip-components 1 && rm -rf ghr_*_amd64.tar.gz
-chmod a+rx ./repo && chmod a+x ./ghr && sudo mv ./repo ./ghr /usr/local/bin/
+chmod a+rx ./repo && sudo mv ./repo /usr/local/bin/
 echo "::endgroup::"
 
-# echo "::group::Installation Of Latest make and ccache"
-# mkdir -p /home/runner/extra &>/dev/null
-# {
-#     cd /home/runner/extra || exit 1
-#     wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
-#     tar xzf make-4.3.tar.gz && cd make-*/ || exit
-#     ./configure && bash ./build.sh && sudo install ./make /usr/local/bin/make
-#     cd /home/runner/extra || exit 1
-#     git clone -q https://github.com/ccache/ccache.git
-#     cd ccache && git checkout -q v4.2
-#     mkdir build && cd build || exit
-#     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DZSTD_FROM_INTERNET=ON ..
-#     make -j6 && sudo make install
-# } &>/dev/null
-# cd /home/runner || exit 1
-# rm -rf /home/runner/extra
-# echo "::endgroup::"
+echo "::group::Installation Of Latest make"
+mkdir -p ~/extra &>/dev/null
+{
+    cd ~/extra || exit 1
+    wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
+    tar xzf make-4.3.tar.gz && cd make-*/ || exit
+    ./configure && bash ./build.sh && sudo install ./make /usr/local/bin/make
+} &>/dev/null
+cd ~ || exit 1
+rm -rf ~/extra
+echo "::endgroup::"
 
 echo "::group::Doing Some Random Stuff"
 if [ -e /lib/x86_64-linux-gnu/libncurses.so.6 ] && [ ! -e /usr/lib/x86_64-linux-gnu/libncurses.so.5 ]; then
@@ -141,12 +133,6 @@ echo "::endgroup::"
 echo "::group::Pre-Compilation"
 printf "Compiling Recovery...\n"
 export ALLOW_MISSING_DEPENDENCIES=true
-
-# Only for (Unofficial) TWRP Building...
-# If lunch throws error for roomservice, saying like `device tree not found` or `fetching device already present`,
-# replace the `roomservice.py` with appropriate one according to platform version from here
-# >> https://gist.github.com/rokibhasansagar/247ddd4ef00dcc9d3340397322051e6a/
-# and then `source` and `lunch` again
 
 source build/envsetup.sh
 lunch omni_${CODENAME}-${FLAVOR} || { printf "Compilation failed.\n"; exit 1; }
