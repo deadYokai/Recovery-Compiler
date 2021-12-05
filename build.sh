@@ -62,7 +62,7 @@ sudo rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* &>/dev/null
 echo "::endgroup::"
 
 echo "::group::Installation Of git-repo and ghr"
-cd /home/runner || exit 1
+cd ~|| exit 1
 printf "Adding latest stable git-repo and ghr binary...\n"
 curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > repo
 curl -s https://api.github.com/repos/tcnksm/ghr/releases/latest | jq -r '.assets[] | select(.browser_download_url | contains("linux_amd64")) | .browser_download_url' | wget -qi -
@@ -101,7 +101,7 @@ echo "::endgroup::"
 
 echo "::group::Setting ccache"
 mkdir -p /opt/ccache &>/dev/null
-sudo chown runner:docker /opt/ccache
+sudo chown $(whoami):docker /opt/ccache
 CCACHE_DIR=/opt/ccache ccache -M 5G &>/dev/null
 printf "All Preparation Done.\nReady To Build Recoveries...\n"
 echo "::endgroup::"
