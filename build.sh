@@ -47,7 +47,7 @@ sudo apt-get -qqy install --no-install-recommends \
     ubuntu-minimal lsb-core lsb-security patchutils bc \
     android-sdk-platform-tools adb fastboot \
     openjdk-8-jdk ca-certificates-java maven \
-    python3.8 python3-pip python3-all-dev python-is-python3 \
+    python3.8 python3-pip python3-all-dev python-is-python3 python2 \
     lzip lzop xzdec pixz libzstd-dev lib32z1-dev \
     exfat-utils exfat-fuse \
     build-essential gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
@@ -134,7 +134,7 @@ echo "::endgroup::"
 
 echo "::group::Compilation"
 #mka ${TARGET} || { printf "Compilation failed.\n"; exit 1; }
-make -j$(nproc) ${TARGET} || { printf "Compilation failed.\n"; exit 1; }
+make -j1 ${TARGET} || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
 # Export VENDOR, CODENAME and BuildPath for next steps
