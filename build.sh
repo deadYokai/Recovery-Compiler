@@ -64,7 +64,7 @@ echo "::endgroup::"
 echo "::group::Installation Of git-repo"
 cd ~|| exit 1
 printf "Adding latest stable git-repo binary...\n"
-curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > repo
+curl -sL https://storage.googleapis.com/git-repo-downloads/repo > repo
 chmod a+rx ./repo && sudo mv ./repo /usr/local/bin/
 echo "::endgroup::"
 
