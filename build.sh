@@ -55,15 +55,14 @@ sudo apt-get -qqy install --no-install-recommends \
     libreadline-gplv2-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
     pngcrush imagemagick optipng advancecomp ccache software-properties-common \
     &>/dev/null
-    sudo add-apt-repository ppa:deadsnakes/ppa &>/dev/null
-    sudo apt-get -qqy update &>/dev/null
-    sudo apt-get -qqy install --no-install-recommends python3.8 &>/dev/null
 printf "Cleaning Some Programs...\n"
 sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless python &>/dev/null
 sudo apt-get -qy clean &>/dev/null && sudo apt-get -qy autoremove &>/dev/null
 sudo rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* &>/dev/null
 #Force link python3
 [ -e /usr/bin/python ] && sudo rm -- /usr/bin/python
+sudo rm /usr/bin/python3 &>/dev/null
+sudo ln -s python3.8 /usr/bin/python3 &>/dev/null
 sudo ln -s /usr/bin/python3 /usr/bin/python &>/dev/null
 [ -e /usr/bin/pip ] && sudo rm -- /usr/bin/pip
 sudo ln -s /usr/bin/pip3 /usr/bin/pip &>/dev/null
