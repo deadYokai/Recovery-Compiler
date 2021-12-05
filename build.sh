@@ -53,7 +53,7 @@ sudo apt-get -qqy install --no-install-recommends \
     build-essential gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
     libxml2-utils xsltproc expat re2c libxml2-utils xsltproc expat re2c \
     libreadline-gplv2-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
-    pngcrush imagemagick optipng advancecomp ccache
+    pngcrush imagemagick optipng advancecomp ccache &>/dev/null
 printf "Cleaning Some Programs...\n"
 sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless python &>/dev/null
 sudo apt-get -qy clean &>/dev/null && sudo apt-get -qy autoremove &>/dev/null
