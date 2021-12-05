@@ -50,7 +50,7 @@ sudo apt-get -qqy install --no-install-recommends \
     python-all-dev python-is-python2 \
     lzip lzop xzdec pixz libzstd-dev lib32z1-dev \
     exfat-utils exfat-fuse \
-    gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
+    build-essential gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
     libxml2-utils xsltproc expat re2c libxml2-utils xsltproc expat re2c \
     libreadline-gplv2-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
     pngcrush imagemagick optipng advancecomp ccache \
@@ -61,21 +61,11 @@ sudo apt-get -qy clean &>/dev/null && sudo apt-get -qy autoremove &>/dev/null
 sudo rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* &>/dev/null
 echo "::endgroup::"
 
-echo "::group::Installation Of git-repo and ghr"
+echo "::group::Installation Of git-repo"
 cd ~|| exit 1
-printf "Adding latest stable git-repo and ghr binary...\n"
+printf "Adding latest stable git-repo binary...\n"
 curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > repo
 chmod a+rx ./repo && sudo mv ./repo /usr/local/bin/
-echo "::endgroup::"
-
-echo "::group::Installation Of Latest make"
-mkdir -p ~/extra
-cd ~/extra 
-wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
-tar xzf make-4.3.tar.gz && cd make-*/ 
-./configure && bash ./build.sh && sudo install ./make /usr/local/bin/make
-cd ~
-rm -rf ~/extra
 echo "::endgroup::"
 
 echo "::group::Doing Some Random Stuff"
@@ -124,7 +114,7 @@ echo "::group::Extra Commands"
 if [[ ! -z "$EXTRA_CMD" ]]; then
     printf "Executing Extra Commands\n"
     eval "${EXTRA_CMD}"
-    cd ~/builder || exit
+    cd ~/builder 
 fi
 echo "::endgroup::"
 
