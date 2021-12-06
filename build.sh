@@ -54,7 +54,7 @@ sudo apt-get -qqy install --no-install-recommends \
     lsb-core lsb-security patchutils bc \
     android-sdk-platform-tools adb fastboot \
     openjdk-8-jdk ca-certificates-java maven \
-    python3-all-dev python-is-python3 \
+    python3-all-dev python-is-python3 python2 \
     lzip lzop xzdec pixz libzstd-dev lib32z1-dev \
     exfat-utils exfat-fuse \
     build-essentials gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
