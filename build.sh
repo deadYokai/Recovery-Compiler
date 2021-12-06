@@ -2,14 +2,6 @@
 
 printf "\e[1;32m \u2730 Recovery Compiler\e[0m\n\n"
 
-# Echo Loop
-while ((${SECONDS_LEFT:=10} > 0)); do
-    printf "Please wait %.fs ...\n" "${SECONDS_LEFT}"
-    sleep 1
-    SECONDS_LEFT=$((SECONDS_LEFT - 1))
-done
-unset SECONDS_LEFT
-
 echo "::group::Free Space Checkup"
 if [[ ! $(df / --output=avail | tail -1 | awk '{print $NF}') -ge 41943040 ]]; then
     printf "Please use 'slimhub_actions@main' Action prior to this Recovery Compiler Action to gain at least 40 GB space\n"
@@ -62,45 +54,25 @@ sudo apt-get -qqy install --no-install-recommends \
     lsb-core lsb-security patchutils bc \
     android-sdk-platform-tools adb fastboot \
     openjdk-8-jdk ca-certificates-java maven \
-    python-all-dev python-is-python2 \
+    python3-all-dev python-is-python3 \
     lzip lzop xzdec pixz libzstd-dev lib32z1-dev \
     exfat-utils exfat-fuse \
-    gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
+    build-essentials gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
     libxml2-utils xsltproc expat re2c libxml2-utils xsltproc expat re2c \
     libreadline-gplv2-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
-    pngcrush imagemagick optipng advancecomp \
+    pngcrush imagemagick optipng advancecomp ccache\
     &>/dev/null
 printf "Cleaning Some Programs...\n"
-sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless &>/dev/null
+sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless python &>/dev/null
 sudo apt-get -qy clean &>/dev/null && sudo apt-get -qy autoremove &>/dev/null
 sudo rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* &>/dev/null
 echo "::endgroup::"
 
-echo "::group::Installation Of git-repo and ghr"
+echo "::group::Installation Of repo"
 cd /home/runner || exit 1
-printf "Adding latest stable git-repo and ghr binary...\n"
-curl -sL https://gerrit.googlesource.com/git-repo/+/refs/heads/stable/repo?format=TEXT | base64 --decode  > repo
-curl -s https://api.github.com/repos/tcnksm/ghr/releases/latest | jq -r '.assets[] | select(.browser_download_url | contains("linux_amd64")) | .browser_download_url' | wget -qi -
-tar -xzf ghr_*_amd64.tar.gz --wildcards 'ghr*/ghr' --strip-components 1 && rm -rf ghr_*_amd64.tar.gz
-chmod a+rx ./repo && chmod a+x ./ghr && sudo mv ./repo ./ghr /usr/local/bin/
-echo "::endgroup::"
-
-echo "::group::Installation Of Latest make and ccache"
-mkdir -p /home/runner/extra &>/dev/null
-{
-    cd /home/runner/extra || exit 1
-    wget -q https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
-    tar xzf make-4.3.tar.gz && cd make-*/ || exit
-    ./configure && bash ./build.sh && sudo install ./make /usr/local/bin/make
-    cd /home/runner/extra || exit 1
-    git clone -q https://github.com/ccache/ccache.git
-    cd ccache && git checkout -q v4.2
-    mkdir build && cd build || exit
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local -DZSTD_FROM_INTERNET=ON ..
-    make -j6 && sudo make install
-} &>/dev/null
-cd /home/runner || exit 1
-rm -rf /home/runner/extra
+printf "Adding latest stable repo...\n"
+curl -sL https://storage.googleapis.com/git-repo-downloads/repo > repo
+chmod a+rx ./repo && sudo mv ./repo /usr/local/bin/
 echo "::endgroup::"
 
 echo "::group::Doing Some Random Stuff"
@@ -127,17 +99,9 @@ cd /home/runner/builder || exit 1
 
 echo "::group::Source Repo Sync"
 printf "Initializing Repo\n"
-if [[ "${MANIFEST}" == "orangefox10" ]]; then
-    printf "Manually Preparing Ofox Repos For Dynamic Partition Device\n"
-    git clone https://github.com/CarbonatedBlack/ofox-sync.git
-    cd ofox-sync || exit
-    bash ./get_fox_10.sh /home/runner/builder
-    cd /home/runner/builder || exit
-else
-    printf "We will be using %s for Manifest source\n" "${MANIFEST}"
-    repo init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips || { printf "Repo Initialization Failed.\n"; exit 1; }
-    repo sync -c -q --force-sync --no-clone-bundle --no-tags -j6 || { printf "Git-Repo Sync Failed.\n"; exit 1; }
-fi
+printf "We will be using %s for Manifest source\n" "${MANIFEST}"
+repo init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips || { printf "Repo Initialization Failed.\n"; exit 1; }
+repo sync -c -q --force-sync --no-clone-bundle --no-tags -j6 || { printf "Git-Repo Sync Failed.\n"; exit 1; }
 echo "::endgroup::"
 
 echo "::group::Device and Kernel Tree Cloning"
