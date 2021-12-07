@@ -1,21 +1,21 @@
 #!/bin/bash
 
-echo "⣿⣿⣿⣿⣿⣿⠿⢋⣥⣴⣶⣶⣶⣬⣙⠻⠟⣋⣭⣭⣭⣭⡙⠻⣿⣿⣿⣿⣿"
-echo "⣿⣿⣿⣿⡿⢋⣴⣿⣿⠿⢟⣛⣛⣛⠿⢷⡹⣿⣿⣿⣿⣿⣿⣆⠹⣿⣿⣿⣿"
-echo "⣿⣿⣿⡿⢁⣾⣿⣿⣴⣿⣿⣿⣿⠿⠿⠷⠥⠱⣶⣶⣶⣶⡶⠮⠤⣌⡙⢿⣿"
-echo "⣿⡿⢛⡁⣾⣿⣿⣿⡿⢟⡫⢕⣪⡭⠥⢭⣭⣉⡂⣉⡒⣤⡭⡉⠩⣥⣰⠂⠹"
-echo "⡟⢠⣿⣱⣿⣿⣿⣏⣛⢲⣾⣿⠃⠄⠐⠈⣿⣿⣿⣿⣿⣿⠄⠁⠃⢸⣿⣿⡧"
-echo "⢠⣿⣿⣿⣿⣿⣿⣿⣿⣇⣊⠙⠳⠤⠤⠾⣟⠛⠍⣹⣛⣛⣢⣀⣠⣛⡯⢉⣰"
-echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡶⠶⢒⣠⣼⣿⣿⣛⠻⠛⢛⣛⠉⣴⣿⣿"
-echo "⣿⣿⣿⣿⣿⣿⣿⡿⢛⡛⢿⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡈⢿⣿"
-echo "⣿⣿⣿⣿⣿⣿⣿⠸⣿⡻⢷⣍⣛⠻⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢇⡘⣿"
-echo "⣿⣿⣿⣿⣿⣿⣿⣷⣝⠻⠶⣬⣍⣛⣛⠓⠶⠶⠶⠤⠬⠭⠤⠶⠶⠞⠛⣡⣿"
-echo "⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣬⣭⣍⣙⣛⣛⣛⠛⠛⠛⠿⠿⠿⠛⣠⣿⣿"
-echo "⣦⣈⠉⢛⠻⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⣁⣴⣾⣿⣿⣿⣿"
-echo "⣿⣿⣿⣶⣮⣭⣁⣒⣒⣒⠂⠠⠬⠭⠭⠭⢀⣀⣠⣄⡘⠿⣿⣿⣿⣿⣿⣿⣿"
-echo "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡈⢿⣿⣿⣿⣿⣿"
+echo -e "⣿⣿⣿⣿⣿⣿⠿⢋⣥⣴⣶⣶⣶⣬⣙⠻⠟⣋⣭⣭⣭⣭⡙⠻⣿⣿⣿⣿⣿"
+echo -e "⣿⣿⣿⣿⡿⢋⣴⣿⣿⠿⢟⣛⣛⣛⠿⢷⡹⣿⣿⣿⣿⣿⣿⣆⠹⣿⣿⣿⣿"
+echo -e "⣿⣿⣿⡿⢁⣾⣿⣿⣴⣿⣿⣿⣿⠿⠿⠷⠥⠱⣶⣶⣶⣶⡶⠮⠤⣌⡙⢿⣿"
+echo -e "⣿⡿⢛⡁⣾⣿⣿⣿⡿⢟⡫⢕⣪⡭⠥⢭⣭⣉⡂⣉⡒⣤⡭⡉⠩⣥⣰⠂⠹"
+echo -e "⡟⢠⣿⣱⣿⣿⣿⣏⣛⢲⣾⣿⠃⠄⠐⠈⣿⣿⣿⣿⣿⣿⠄⠁⠃⢸⣿⣿⡧"
+echo -e "⢠⣿⣿⣿⣿⣿⣿⣿⣿⣇⣊⠙⠳⠤⠤⠾⣟⠛⠍⣹⣛⣛⣢⣀⣠⣛⡯⢉⣰"
+echo -e "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡶⠶⢒⣠⣼⣿⣿⣛⠻⠛⢛⣛⠉⣴⣿⣿"
+echo -e "⣿⣿⣿⣿⣿⣿⣿⡿⢛⡛⢿⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡈⢿⣿"
+echo -e "⣿⣿⣿⣿⣿⣿⣿⠸⣿⡻⢷⣍⣛⠻⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢇⡘⣿"
+echo -e "⣿⣿⣿⣿⣿⣿⣿⣷⣝⠻⠶⣬⣍⣛⣛⠓⠶⠶⠶⠤⠬⠭⠤⠶⠶⠞⠛⣡⣿"
+echo -e "⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣬⣭⣍⣙⣛⣛⣛⠛⠛⠛⠿⠿⠿⠛⣠⣿⣿"
+echo -e "⣦⣈⠉⢛⠻⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠛⣁⣴⣾⣿⣿⣿⣿"
+echo -e "⣿⣿⣿⣶⣮⣭⣁⣒⣒⣒⠂⠠⠬⠭⠭⠭⢀⣀⣠⣄⡘⠿⣿⣿⣿⣿⣿⣿⣿"
+echo -e "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡈⢿⣿⣿⣿⣿⣿"
 
-printf "\e[1;32m \e[1m Recovery Compiler\e[0m\n\n"
+printf "\e[1;32m\e[1m Recovery Compiler\e[0m\n\n"
 
 echo "༄Free Space Checkup"
 if [[ ! $(df / --output=avail | tail -1 | awk '{print $NF}') -ge 41943040 ]]; then
@@ -24,7 +24,7 @@ if [[ ! $(df / --output=avail | tail -1 | awk '{print $NF}') -ge 41943040 ]]; th
 else
     printf "You have %s space available\n" "$(df -h / --output=avail | tail -1 | awk '{print $NF}')"
 fi
-printf "༄\n"
+echo "༄\n"
 
 echo "༄Mandatory Variables Checkup"
 if [[ -z ${MANIFEST} ]]; then
@@ -48,7 +48,7 @@ export TZ=${TZ:-UTC}
 if [[ ! ${TZ} == "UTC" ]]; then
     sudo timedatectl set-timezone ${TZ}
 fi
-printf "༄\n"
+echo "༄\n"
 
 printf "We are going to build ${FLAVOR}-flavored ${TARGET} for ${CODENAME} from the manufacturer ${VENDOR}\n"
 
@@ -78,16 +78,16 @@ sudo rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* &>/dev/null
 sudo ln -s /usr/bin/python3 /usr/bin/python &>/dev/null
 [ -e /usr/bin/pip ] && sudo rm -- /usr/bin/pip
 sudo ln -s /usr/bin/pip3 /usr/bin/pip &>/dev/null
-printf "༄\n"
+echo "༄\n"
 
 echo "༄Installation Of git-repo"
 cd ~|| exit 1
 printf "Adding latest stable git-repo binary...\n"
 curl -sL https://storage.googleapis.com/git-repo-downloads/repo > repo
 chmod a+rx ./repo && sudo mv ./repo /usr/local/bin/
-printf "༄\n"
+echo "༄\n"
 
-printf "༄Doing Some Random Stuff"
+echo "༄Doing Some Random Stuff"
 if [ -e /lib/x86_64-linux-gnu/libncurses.so.6 ] && [ ! -e /usr/lib/x86_64-linux-gnu/libncurses.so.5 ]; then
     ln -s /lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5
 fi
@@ -97,18 +97,18 @@ export \
     TERM=xterm-256color
 . ~/.bashrc 2>/dev/null
 
-printf "༄Setting ccache"
+echo "༄Setting ccache"
 #mkdir -p /opt/ccache &>/dev/null
 #sudo chown $(whoami):docker /opt/ccache
 ccache -M 5G &>/dev/null
 printf "All Preparation Done.\nReady To Build Recoveries...\n"
-printf "༄\n"
+echo "༄\n"
 
 # cd To An Absolute Path
 mkdir -p ~/builder &>/dev/null
 cd ~/builder || exit 1
 
-printf "༄Source Repo Sync"
+echo "༄Source Repo Sync"
 printf "Initializing Repo\n"
 python --version
 python3 --version
@@ -119,7 +119,7 @@ echo "༄\n"
 echo "༄ ага"
 echo "༄\n"
 
-printf "༄Device and Kernel Tree Cloning"
+echo "༄Device and Kernel Tree Cloning"
 printf "Cloning Device Tree\n"
 git clone ${DT_LINK} --depth=1 device/${VENDOR}/${CODENAME}
 # omni.dependencies file is a must inside DT, otherwise lunch fails
@@ -130,7 +130,7 @@ if [[ ! -z "${KERNEL_LINK}" ]]; then
 else
     printf "Using Prebuilt Kernel For The Build.\n"
 fi
-printf "༄\n"
+echo "༄\n"
 
 if [[ ! -z "$EXTRA_CMD" ]]; then
     printf "Executing Extra Commands\n"
@@ -138,7 +138,7 @@ if [[ ! -z "$EXTRA_CMD" ]]; then
     cd ~/builder 
 fi
 
-printf "༄Compiling Recovery...\n"
+echo "༄Compiling Recovery...\n"
 export ALLOW_MISSING_DEPENDENCIES=true
 
 source build/envsetup.sh
@@ -146,7 +146,7 @@ lunch omni_${CODENAME}-${FLAVOR} || { printf "Compilation failed.\n"; exit 1; }
 
 mka ${TARGET} || { printf "Compilation failed.\n"; exit 1; }
 #make -j1 ${TARGET} || { printf "Compilation failed.\n"; exit 1; }
-printf "༄Finish"
+echo "༄Finish"
 
 echo "⠀⠀⠀⠀⠀⣴⠉⡙⠳⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠤⣚⡯⠴⢬⣱⡀⠀"
 echo "⠀⠀⠀⠀⢰⡇⣷⡌⢲⣄⡑⢢⡀⠀⠀⠀⠀⠀⢠⠾⢋⠔⣨⣴⣿⣷⡌⠇⡇⠀"
