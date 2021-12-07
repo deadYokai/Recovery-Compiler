@@ -60,8 +60,7 @@ sudo apt-get -qqy install --no-install-recommends \
     build-essentials gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
     libxml2-utils xsltproc expat re2c libxml2-utils xsltproc expat re2c \
     libreadline-gplv2-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
-    pngcrush imagemagick optipng advancecomp ccache\
-    &>/dev/null
+    pngcrush imagemagick optipng advancecomp ccache
 printf "Cleaning Some Programs...\n"
 sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless python &>/dev/null
 sudo apt-get -qy clean &>/dev/null && sudo apt-get -qy autoremove &>/dev/null
@@ -99,9 +98,12 @@ cd /home/runner/builder || exit 1
 
 echo "::group::Source Repo Sync"
 printf "Initializing Repo\n"
+python --version
+python3 --version
+python2 --version
 printf "We will be using %s for Manifest source\n" "${MANIFEST}"
-repo init -q -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips || { printf "Repo Initialization Failed.\n"; exit 1; }
-repo sync -c -q --force-sync --no-clone-bundle --no-tags -j6 || { printf "Git-Repo Sync Failed.\n"; exit 1; }
+repo init -u ${MANIFEST} --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips || { printf "Repo Initialization Failed.\n"; exit 1; }
+repo sync -c --force-sync --no-clone-bundle --no-tags -j6 || { printf "Git-Repo Sync Failed.\n"; exit 1; }
 echo "::endgroup::"
 
 echo "::group::Device and Kernel Tree Cloning"
