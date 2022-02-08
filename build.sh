@@ -36,7 +36,7 @@ if [[ -z ${VENDOR} || -z ${CODENAME} ]]; then
     export CODENAME=c18pro
 fi
 if [[ -z ${DT_LINK} ]]; then
-    export DT_LINK="https://github.com/OneGameKoTT/android_device_${VENDOR}_${CODENAME}-pbrp -b android-10.0"
+    export DT_LINK="https://github.com/OneGameKoTT/android_device_${VENDOR}_${CODENAME}-recovery -b android-10.0"
 	unset DT_BR
 fi
 # Default TARGET will be recoveryimage if not provided
