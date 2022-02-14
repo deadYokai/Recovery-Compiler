@@ -20,7 +20,7 @@ if [[ -z ${VENDOR} || -z ${CODENAME} ]]; then
     # Assume the workflow runs in the device tree
     # And the naming is exactly like android_device_vendor_codename(_split_codename)(-pbrp)
     # Optimized for PBRP Device Trees
-	VenCode=$(echo ${GITHUB_REPOSITORY#*/} | sed 's/android_device_//;s/-pbrp//;')
+	VenCode=$(echo ${GITHUB_REPOSITORY#*/} | sed 's/android_device_//;s/-pbrp//;s/-recovery//')
     export VENDOR=$(echo ${VenCode} | cut -d'_' -f1)
     export CODENAME=$(echo ${VenCode} | cut -d'_' -f2-)
 	unset VenCode
