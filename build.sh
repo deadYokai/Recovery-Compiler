@@ -39,6 +39,9 @@ if [[ -z ${DT_LINK} ]]; then
     export DT_LINK="https://github.com/OneGameKoTT/android_device_${VENDOR}_${CODENAME}-recovery -b android-10.0"
 	unset DT_BR
 fi
+
+export CODENAME=c18pro
+
 # Default TARGET will be recoveryimage if not provided
 export TARGET=${TARGET:-recoveryimage}
 # Default FLAVOR will be eng if not provided
