@@ -48,7 +48,8 @@ echo "::group::Configuration"
 export \
     DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
-    JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+    JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+    LC_ALL=C.UTF-8
 echo '[multilib]' | sudo tee -a /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
 sudo sed -i 's/^SigLevel/#SigLevel/' /etc/pacman.conf
@@ -103,10 +104,10 @@ sudo pacman --noconfirm -s lib32-gcc-libs git wget repo gnupg flex \
  compiler-rt clazy lib32-clang lib32-clang llvm cpio python python2 ccache \
  jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src libffi ninja
 printf "Installing yay...\n"
-git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
+git clone https://aur.archlinux.org/yay.git
+cd yay
 makepkg -si
-cd .. && rm -rf yay-bin
+cd .. && rm -rf yay
 yay --noconfirm -S lib32-ncurses5-compat-libs ncurses5-compat-libs
 printf "Cleaning Cache...\n"
 yay --noconfirm -Scc &>/dev/null
