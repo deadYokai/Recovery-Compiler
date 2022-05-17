@@ -4,6 +4,7 @@ printf "\e[1;32m \u2730 Recovery Compiler\e[0m\n\n"
 
 echo "::group::Free Space Checkup"
 if [[ ! $(df / --output=avail | tail -1 | awk '{print $NF}') -ge 41943040 ]]; then
+    df -h / --output=avail | tail -1 | awk '{print $NF}'
     printf "Please use 'slimhub_actions@main' Action prior to this Recovery Compiler Action to gain at least 40 GB space\n"
     exit 1
 else
