@@ -87,16 +87,16 @@ sudo sed -i 's/\[options\]/\[options\]\nSigLevel = Never/' /etc/pacman.conf
 # # cat /etc/pacman.conf
 # printf ";;;;"
 cat /etc/pacman.d/mirrorlist
-sudo pacman --noconfirm -Syy archlinux-keyring
+sudo pacman --noconfirm -Syy
 echo "::endgroup::"
 
 echo "::group::Instaaalimg"
-sudo pacman --noconfirm -S lib32-gcc-libs git wget repo gnupg flex \
+sudo pacman --noconfirm -S base-devel lib32-gcc-libs git wget repo gnupg flex \
  bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib \
  schedtool perl-switch zip unzip libxslt \
  bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
  compiler-rt clazy lib32-clang lib32-clang llvm cpio python python2 ccache \
- jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src
+ jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src libffi ninja
 printf "Installing yay...\n"
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
