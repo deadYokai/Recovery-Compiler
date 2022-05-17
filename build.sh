@@ -87,7 +87,7 @@ sudo sed -i 's/\[options\]/\[options\]\nSigLevel = Never/' /etc/pacman.conf
 # # cat /etc/pacman.conf
 # printf ";;;;"
 cat /etc/pacman.d/mirrorlist
-sudo pacman --noconfirm -Syy
+sudo pacman --noconfirm -Syyu
 echo "::endgroup::"
 
 echo "::group::Instaaalimg"
