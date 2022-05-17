@@ -44,27 +44,25 @@ echo "::endgroup::"
 
 printf "We are going to build ${FLAVOR}-flavored ${TARGET} for ${CODENAME} from the manufacturer ${VENDOR}\n"
 
-echo "::group::Installation Of Recommended Programs"
+echo "::group::Installation And Configuration"
 export \
     DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-sudo apt-get -qqy update &>/dev/null
-sudo apt-get -qqy install --no-install-recommends \
-    lsb-core lsb-security patchutils bc \
-    android-sdk-platform-tools adb fastboot \
-    openjdk-8-jdk ca-certificates-java maven \
-    python3-all-dev python-is-python3 python2 \
-    lzip lzop xzdec pixz libzstd-dev lib32z1-dev \
-    exfat-utils exfat-fuse \
-    build-essential gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
-    libxml2-utils xsltproc expat re2c libxml2-utils xsltproc expat re2c \
-    libreadline-gplv2-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
-    pngcrush imagemagick optipng advancecomp ccache
-printf "Cleaning Some Programs...\n"
-sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless python &>/dev/null
-sudo apt-get -qy clean &>/dev/null && sudo apt-get -qy autoremove &>/dev/null
-sudo rm -rf -- /var/lib/apt/lists/* /var/cache/apt/archives/* &>/dev/null
+echo '[multilib]\nInclude = /etc/pacman.d/mirrorlist' | sudo tee -a pacman.conf
+sudo pacman --noconfirm -S archlinux-keyring lib32-gcc-libs git wget repo gnupg flex \
+ bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib \
+ schedtool perl-switch zip unzip libxslt python2-virtualenv \
+ bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
+ compiler-rt clazy lib32-clang lib32-clang llvm cpio python3 python2 ccache
+printf "Installing yay...\n"
+git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
+makepkg -si
+cd .. && rm -rf yay-bin
+yay --noconfirm -S lib32-ncurses5-compat-libs ncurses5-compat-libs
+printf "Cleaning Cache...\n"
+yay --noconfirm -Scc &>/dev/null
 echo "::endgroup::"
 
 echo "::group::Installation Of repo"
