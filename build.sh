@@ -94,13 +94,9 @@ echo "::endgroup::"
 
 echo "::group::Instaaalimg"
 sudo pacman --noconfirm --needed -S base-devel
-git clone https://aur.archlinux.org/libffi7.git
-cd libffi7
-makepkg -si
-cd .. && rm -rf libffi7
 sudo pacman --noconfirm --needed -S lib32-gcc-libs git wget repo gnupg flex \
  gperf sdl wxgtk2 squashfs-tools curl ncurses zlib glib2 \
- schedtool perl-switch zip unzip libxslt \
+ schedtool perl-switch zip unzip libxslt ssh \
  bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
  compiler-rt clazy lib32-clang lib32-clang llvm cpio python python2 ccache \
  jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src libffi ninja go
