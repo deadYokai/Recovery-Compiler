@@ -44,7 +44,7 @@ echo "::endgroup::"
 
 printf "We are going to build ${FLAVOR}-flavored ${TARGET} for ${CODENAME} from the manufacturer ${VENDOR}\n"
 
-echo "::group::Installation And Configuration"
+echo "::group::Configuration"
 export \
     DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
@@ -52,7 +52,6 @@ export \
 echo '[multilib]' | sudo tee -a /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
 echo 'SigLevel = Never' | sudo tee -a /etc/pacman.conf
-cat /etc/pacman.conf
 sudo tee > /etc/pacman.d/mirrorlist << EOF
 ##
 ## Arch Linux repository mirrorlist
@@ -85,6 +84,9 @@ sudo pacman-key --init
 sudo pacman-key --populate archlinux
 sudo pacman-key --refresh-keys
 sudo pacman --noconfirm -Syy archlinux-keyring
+echo "::endgroup::"
+
+echo "::group::Instaaalimg"
 sudo pacman --noconfirm -S lib32-gcc-libs git wget repo gnupg flex \
  bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib \
  schedtool perl-switch zip unzip libxslt \
