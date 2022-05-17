@@ -50,8 +50,8 @@ export \
     LANG=C.UTF-8 \
     JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 echo '[multilib]\nInclude = /etc/pacman.d/mirrorlist' | sudo tee -a pacman.conf
-sudo pacman --noconfirm -Syy
-sudo pacman --noconfirm -S archlinux-keyring
+sudo pacman-key --init
+sudo pacman --noconfirm -Syy archlinux-keyring
 sudo pacman --noconfirm -S lib32-gcc-libs git wget repo gnupg flex \
  bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib \
  schedtool perl-switch zip unzip libxslt python2-virtualenv \
