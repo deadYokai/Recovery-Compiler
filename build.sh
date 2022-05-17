@@ -49,12 +49,18 @@ export \
     DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-echo '[multilib]\nInclude = /etc/pacman.d/mirrorlist' | sudo tee -a pacman.conf
+echo '[multilib]\nInclude = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
+sudo rm -R /etc/pacman.d/gnupg/
+sudo rm -R /root/.gnupg/ 
+sudo rm -R /var/cache/pacman/pkg/
+sudo gpg --refresh-keys
 sudo pacman-key --init
+sudo pacman-key --populate archlinux
+sudo pacman-key --refresh-keys
 sudo pacman --noconfirm -Syy archlinux-keyring
 sudo pacman --noconfirm -S lib32-gcc-libs git wget repo gnupg flex \
  bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib \
- schedtool perl-switch zip unzip libxslt python2-virtualenv \
+ schedtool perl-switch zip unzip libxslt \
  bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
  compiler-rt clazy lib32-clang lib32-clang llvm cpio python3 python2 ccache \
  jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src
