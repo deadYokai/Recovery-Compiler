@@ -91,7 +91,12 @@ sudo pacman --noconfirm -Syy
 echo "::endgroup::"
 
 echo "::group::Instaaalimg"
-sudo pacman --noconfirm -S base-devel lib32-gcc-libs git wget repo gnupg flex \
+sudo pacman --noconfirm -S base-devel
+git clone https://aur.archlinux.org/libffi7.git
+cd libffi7
+makepkg -si
+cd .. && rm -rf libffi7
+sudo pacman --noconfirm -s lib32-gcc-libs git wget repo gnupg flex \
  bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib glib2 \
  schedtool perl-switch zip unzip libxslt \
  bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
