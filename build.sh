@@ -92,7 +92,7 @@ echo "::endgroup::"
 
 echo "::group::Instaaalimg"
 sudo pacman --noconfirm -S base-devel lib32-gcc-libs git wget repo gnupg flex \
- bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib \
+ bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib glib2 \
  schedtool perl-switch zip unzip libxslt \
  bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
  compiler-rt clazy lib32-clang lib32-clang llvm cpio python python2 ccache \
