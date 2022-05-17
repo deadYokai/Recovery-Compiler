@@ -52,7 +52,7 @@ export \
 echo '[multilib]' | sudo tee -a /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
 echo 'SigLevel = Never' | sudo tee -a /etc/pacman.conf
-sudo tee > /etc/pacman.d/mirrorlist << EOF
+sudo tee /etc/pacman.d/mirrorlist &>/dev/null << EOF
 ##
 ## Arch Linux repository mirrorlist
 ## Filtered by mirror score from mirror status page
@@ -80,6 +80,11 @@ Server = https://mirror.mirohost.net/archlinux/$repo/os/$arch
 ## Ukraine
 Server = http://archlinux.ip-connect.vn.ua/$repo/os/$arch
 EOF
+
+cat /etc/pacman.conf
+printf ";;;;"
+/etc/pacman.d/mirrorlist
+
 sudo pacman-key --init
 sudo pacman-key --populate archlinux
 sudo pacman-key --refresh-keys
