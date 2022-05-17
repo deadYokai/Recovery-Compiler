@@ -51,6 +51,7 @@ export \
     JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 echo '[multilib]' | sudo tee -a /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
+echo 'SigLevel = Never' | sudo tee -a /etc/pacman.conf
 cat /etc/pacman.conf
 sudo tee > /etc/pacman.d/mirrorlist << EOF
 ##
