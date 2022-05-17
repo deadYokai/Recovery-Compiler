@@ -56,7 +56,10 @@ echo '[multilib]' | sudo tee -a /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
 sudo sed -i 's/^SigLevel/#SigLevel/' /etc/pacman.conf
 sudo sed -i 's/\[options\]/\[options\]\nSigLevel = Never/' /etc/pacman.conf
-
+sudo pacman --noconfirm -Syy
+sudo pacman --noconfirm -Scc
+useradd user -G wheel && echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+chown user -R .
 
 # sudo tee /etc/pacman.d/mirrorlist &>/dev/null << EOF
 # ##

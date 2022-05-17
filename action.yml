@@ -1,5 +1,5 @@
-name: 'Recovery Compiler For Github Actions' 
-author: 'ElytrA8 (update: OneGameKoTT)' 
+name: 'Recovery Compiler For Github Actions'
+author: 'ElytrA8 (update: OneGameKoTT)'
 description: 'Universal Recovery Compiler'
 
 runs:
