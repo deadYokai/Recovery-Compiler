@@ -50,10 +50,35 @@ export \
     LANG=C.UTF-8 \
     JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 echo '[multilib]\nInclude = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
-sudo rm -R /etc/pacman.d/gnupg/
-sudo rm -R /root/.gnupg/ 
-sudo rm -R /var/cache/pacman/pkg/
-sudo gpg --refresh-keys
+cat /etc/pacman.conf
+cat > /etc/pacman.d/mirrorlist << EOF
+##
+## Arch Linux repository mirrorlist
+## Filtered by mirror score from mirror status page
+## Generated on 2022-04-13
+##
+
+## Ukraine
+Server = http://mirror.mirohost.net/archlinux/$repo/os/$arch
+## Ukraine
+Server = http://repo.endpoint.ml/archlinux/$repo/os/$arch
+## Ukraine
+Server = https://repo.endpoint.ml/archlinux/$repo/os/$arch
+## Ukraine
+Server = https://mirrors.nix.org.ua/linux/archlinux/$repo/os/$arch
+## Ukraine
+Server = http://archlinux.astra.in.ua/$repo/os/$arch
+## Ukraine
+Server = https://archlinux.astra.in.ua/$repo/os/$arch
+## Ukraine
+Server = https://archlinux.ip-connect.vn.ua/$repo/os/$arch
+## Ukraine
+Server = http://mirrors.nix.org.ua/linux/archlinux/$repo/os/$arch
+## Ukraine
+Server = https://mirror.mirohost.net/archlinux/$repo/os/$arch
+## Ukraine
+Server = http://archlinux.ip-connect.vn.ua/$repo/os/$arch
+EOF
 sudo pacman-key --init
 sudo pacman-key --populate archlinux
 sudo pacman-key --refresh-keys
