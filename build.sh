@@ -49,9 +49,10 @@ export \
     DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-echo '[multilib]\nInclude = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
+echo '[multilib]' | sudo tee -a /etc/pacman.conf
+echo 'Include = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
 cat /etc/pacman.conf
-cat > /etc/pacman.d/mirrorlist << EOF
+sudo tee > /etc/pacman.d/mirrorlist << EOF
 ##
 ## Arch Linux repository mirrorlist
 ## Filtered by mirror score from mirror status page
