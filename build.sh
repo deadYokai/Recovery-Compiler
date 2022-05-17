@@ -49,7 +49,8 @@ export \
     DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-    LC_ALL=C.UTF-8
+    LC_ALL=en_US \
+    LANGUAGE=en_US
 echo '[multilib]' | sudo tee -a /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
 sudo sed -i 's/^SigLevel/#SigLevel/' /etc/pacman.conf
@@ -92,17 +93,17 @@ sudo pacman --noconfirm -Syyu
 echo "::endgroup::"
 
 echo "::group::Instaaalimg"
-sudo pacman --noconfirm -S base-devel
+sudo pacman --noconfirm --needed -S base-devel
 git clone https://aur.archlinux.org/libffi7.git
 cd libffi7
 makepkg -si
 cd .. && rm -rf libffi7
 sudo pacman --noconfirm --needed -S lib32-gcc-libs git wget repo gnupg flex \
- bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib glib2 \
+ gperf sdl wxgtk2 squashfs-tools curl ncurses zlib glib2 \
  schedtool perl-switch zip unzip libxslt \
  bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
  compiler-rt clazy lib32-clang lib32-clang llvm cpio python python2 ccache \
- jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src libffi ninja
+ jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src libffi ninja go
 printf "Installing yay...\n"
 git clone https://aur.archlinux.org/yay.git
 cd yay
