@@ -50,11 +50,13 @@ export \
     LANG=C.UTF-8 \
     JAVA_OPTS=" -Xmx7G " JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 echo '[multilib]\nInclude = /etc/pacman.d/mirrorlist' | sudo tee -a pacman.conf
+sudo pacman --noconfirm -Syyu
 sudo pacman --noconfirm -S archlinux-keyring lib32-gcc-libs git wget repo gnupg flex \
  bison gperf sdl wxgtk2 squashfs-tools curl ncurses zlib \
  schedtool perl-switch zip unzip libxslt python2-virtualenv \
  bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
- compiler-rt clazy lib32-clang lib32-clang llvm cpio python3 python2 ccache
+ compiler-rt clazy lib32-clang lib32-clang llvm cpio python3 python2 ccache \
+ jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src
 printf "Installing yay...\n"
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
@@ -63,9 +65,7 @@ cd .. && rm -rf yay-bin
 yay --noconfirm -S lib32-ncurses5-compat-libs ncurses5-compat-libs
 printf "Cleaning Cache...\n"
 yay --noconfirm -Scc &>/dev/null
-echo "::endgroup::"
-
-echo "::group::Installation Of repo"
+printf "You have %s space available\n" "$(df -h / --output=avail | tail -1 | awk '{print $NF}')"
 cd /home/runner || exit 1
 printf "Adding latest stable repo...\n"
 curl -sL https://storage.googleapis.com/git-repo-downloads/repo > repo
