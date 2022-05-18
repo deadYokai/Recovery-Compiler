@@ -95,18 +95,19 @@ chown user -R .
 # # cat /etc/pacman.conf
 # printf ";;;;"
 cat /etc/pacman.d/mirrorlist
-sudo pacman --noconfirm -Syyu
+sudo pacman --noconfirm -Syy
 echo "::endgroup::"
 
 echo "::group::Instaaalimg"
 sudo pacman --noconfirm --needed -S base-devel
 sudo pacman --noconfirm --needed -S lib32-gcc-libs git wget repo gnupg flex \
  gperf sdl wxgtk2 squashfs-tools curl ncurses zlib glib2 \
- schedtool perl-switch zip unzip libxslt openssh yaourt\
+ schedtool perl-switch zip unzip libxslt openssh \
  bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
  compiler-rt clazy lib32-clang lib32-clang llvm cpio python python2 ccache \
  jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src libffi ninja go
-yaourt --noconfirm -S lib32-ncurses5-compat-libs ncurses5-compat-libs
+git clone https://github.com/actionless/pikaur.git
+python3 pikaur/pikaur.py --noconfirm -S lib32-ncurses5-compat-libs ncurses5-compat-libs
 printf "Cleaning Cache...\n"
 pacman --noconfirm -Scc &>/dev/null
 printf "You have %s space available\n" "$(df -h / --output=avail | tail -1 | awk '{print $NF}')"
