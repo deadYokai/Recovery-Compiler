@@ -54,6 +54,8 @@ export \
     LANGUAGE=en_US
 echo '[multilib]' | sudo tee -a /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' | sudo tee -a /etc/pacman.conf
+echo '[archlinuxfr]' | sudo tee -a /etc/pacman.conf
+echo 'Server = http://repo.archlinux.fr/$arch' | sudo tee -a /etc/pacman.conf
 sudo sed -i 's/^SigLevel/#SigLevel/' /etc/pacman.conf
 sudo sed -i 's/\[options\]/\[options\]\nSigLevel = Never/' /etc/pacman.conf
 sudo pacman --noconfirm -Syy
@@ -100,18 +102,13 @@ echo "::group::Instaaalimg"
 sudo pacman --noconfirm --needed -S base-devel
 sudo pacman --noconfirm --needed -S lib32-gcc-libs git wget repo gnupg flex \
  gperf sdl wxgtk2 squashfs-tools curl ncurses zlib glib2 \
- schedtool perl-switch zip unzip libxslt openssh \
+ schedtool perl-switch zip unzip libxslt openssh yaourt\
  bc rsync lib32-zlib lib32-ncurses lib32-readline clang \
  compiler-rt clazy lib32-clang lib32-clang llvm cpio python python2 ccache \
  jre8-openjdk-headless jre8-openjdk jdk8-openjdk openjdk8-doc openjdk8-src libffi ninja go
-printf "Installing yay...\n"
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
-cd .. && rm -rf yay
-yay --noconfirm -S lib32-ncurses5-compat-libs ncurses5-compat-libs
+yaourt --noconfirm -S lib32-ncurses5-compat-libs ncurses5-compat-libs
 printf "Cleaning Cache...\n"
-yay --noconfirm -Scc &>/dev/null
+pacman --noconfirm -Scc &>/dev/null
 printf "You have %s space available\n" "$(df -h / --output=avail | tail -1 | awk '{print $NF}')"
 cd /home/runner || exit 1
 printf "Adding latest stable repo...\n"
