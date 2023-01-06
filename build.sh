@@ -56,10 +56,10 @@ sudo apt-get -qqy install --no-install-recommends \
     openjdk-8-jdk ca-certificates-java maven \
     python3-all-dev python-is-python3 python2 \
     lzip lzop xzdec pixz libzstd-dev lib32z1-dev \
-    exfat-utils exfat-fuse \
+    exfatprogs exfat-fuse \
     build-essential gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
     libxml2-utils xsltproc expat re2c libxml2-utils xsltproc expat re2c \
-    libreadline-gplv2-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
+    libreadline-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
     pngcrush imagemagick optipng advancecomp ccache
 printf "Cleaning Some Programs...\n"
 sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless python &>/dev/null
