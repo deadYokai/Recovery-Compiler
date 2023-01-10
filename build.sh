@@ -57,7 +57,7 @@ sudo apt-get -qqy install --no-install-recommends \
     build-essential gcc gcc-multilib g++-multilib clang llvm lld cmake ninja-build \
     libxml2-utils xsltproc expat re2c libxml2-utils xsltproc expat re2c \
     libreadline-dev libsdl1.2-dev libtinfo5 xterm rename schedtool bison gperf libb2-dev \
-    pngcrush imagemagick optipng advancecomp ccache
+    pngcrush imagemagick optipng advancecomp ccache wget
 printf "Cleaning Some Programs...\n"
 sudo apt-get -qqy purge default-jre-headless openjdk-11-jre-headless python &>/dev/null
 sudo apt-get -qy clean &>/dev/null && sudo apt-get -qy autoremove &>/dev/null
@@ -96,14 +96,13 @@ python3 --version
 python2 --version
 printf "Getting OrangeFox manifest (this can take up to 1 hour, and can use up to 40GB of disk space)"
 mkdir ~/OrangeFox_10 && cd ~/OrangeFox_10
-git clone https://github.com/hraj9258/orangefox_sync sync
-
+mkdir sync
 cd ~/OrangeFox_10/sync
-
-# patch -- git:// to https://
-sed -i 's/git:\/\//https:\/\//g' get_fox_10.sh
-
-./get_fox_10.sh ~/OrangeFox_10/fox_10.0 || { printf "Compilation failed.\n"; exit 1; }
+wget https://gitlab.com/OrangeFox/sync/-/raw/master/legacy/orangefox_sync_legacy.sh
+wget https://gitlab.com/OrangeFox/sync/-/raw/master/legacy/build_fox.sh
+chmod +x orangefox_sync_legacy.sh
+chmod +x build_fox.sh
+./orangefox_sync_legacy.sh --branch 10.0 --path ~/OrangeFox_10/fox_10.0 || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
 echo "::group::Device and Kernel Tree Cloning"
