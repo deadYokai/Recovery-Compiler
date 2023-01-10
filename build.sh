@@ -12,10 +12,7 @@ fi
 echo "::endgroup::"
 
 echo "::group::Mandatory Variables Checkup"
-if [[ -z ${MANIFEST} ]]; then
-    printf "Please Provide A Manifest URL with/without Branch\n"
-    exit 1
-fi
+
 if [[ -z ${VENDOR} || -z ${CODENAME} ]]; then
     # Assume the workflow runs in the device tree
     # And the naming is exactly like android_device_vendor_codename(_split_codename)(-pbrp)
