@@ -96,7 +96,7 @@ python3 --version
 python2 --version
 printf "Getting OrangeFox manifest (this can take up to 1 hour, and can use up to 40GB of disk space)"
 mkdir ~/OrangeFox_10 && cd ~/OrangeFox_10
-git clone https://github.com/Ctapchuk/OFRP_manifest_sync.git sync
+git clone https://github.com/hraj9258/orangefox_sync sync
 
 cd ~/OrangeFox_10/sync
 
@@ -104,8 +104,6 @@ cd ~/OrangeFox_10/sync
 sed -i 's/git:\/\//https:\/\//g' get_fox_10.sh
 
 ./get_fox_10.sh ~/OrangeFox_10/fox_10.0 || { printf "Compilation failed.\n"; exit 1; }
-cd ~/OrangeFox_10/fox_10.0/bootable/recovery
-git pull --recurse-submodules
 echo "::endgroup::"
 
 echo "::group::Device and Kernel Tree Cloning"
