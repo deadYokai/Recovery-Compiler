@@ -102,6 +102,8 @@ wget https://gitlab.com/OrangeFox/sync/-/raw/master/legacy/orangefox_sync_legacy
 wget https://gitlab.com/OrangeFox/sync/-/raw/master/legacy/build_fox.sh
 chmod +x orangefox_sync_legacy.sh
 chmod +x build_fox.sh
+mkdir patches
+wget -O patches/patch-manifest-fox_10.0.diff https://gitlab.com/OrangeFox/sync/-/raw/master/patches/patch-manifest-fox_10.0.diff
 ./orangefox_sync_legacy.sh --branch 10.0 --path ~/OrangeFox_10/fox_10.0 || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
