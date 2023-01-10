@@ -1,6 +1,6 @@
 name: 'Recovery Compiler For Github Actions' 
-author: 'ElytrA8 (update: OneGameKoTT)' 
-description: 'Universal Recovery Compiler'
+author: 'deadYokai (Original: ElytrA8)'
+description: 'OrangeFox Recovery Compiler'
 
 runs:
   using: "composite"

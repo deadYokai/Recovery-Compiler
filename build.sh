@@ -92,22 +92,23 @@ CCACHE_DIR=/opt/ccache ccache -M 5G &>/dev/null
 printf "All Preparation Done.\nReady To Build Recoveries...\n"
 echo "::endgroup::"
 
-# cd To An Absolute Path
-mkdir -p /home/runner/builder &>/dev/null
-cd /home/runner/builder || exit 1
-
 echo "::group::Source Repo Sync"
 printf "Initializing Repo\n"
 python --version
 python3 --version
 python2 --version
-printf "We will be using %s for Manifest source\n" "${MANIFEST}"
-repo init -u ${MANIFEST} || { printf "Repo Initialization Failed.\n"; exit 1; }
-repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags || { printf "Git-Repo Sync Failed.\n"; exit 1; }
+printf "Getting OrangeFox manifest (this can take up to 1 hour, and can use up to 40GB of disk space)"
+mkdir ~/OrangeFox_10 && cd ~/OrangeFox_10
+git clone https://github.com/Ctapchuk/OFRP_manifest_sync.git
+cd ~/OrangeFox_10/sync
+./get_fox_10.sh ~/OrangeFox_10/fox_10.0
+cd ~/OrangeFox_10/fox_10.0/bootable/recovery
+git pull --recurse-submodules
 echo "::endgroup::"
 
 echo "::group::Device and Kernel Tree Cloning"
 printf "Cloning Device Tree\n"
+cd ~/OrangeFox_10
 git clone ${DT_LINK} --depth=1 device/${VENDOR}/${CODENAME}
 # omni.dependencies file is a must inside DT, otherwise lunch fails
 [[ ! -f device/${VENDOR}/${CODENAME}/omni.dependencies ]] && printf "[\n]\n" > device/${VENDOR}/${CODENAME}/omni.dependencies
@@ -123,11 +124,11 @@ echo "::group::Extra Commands"
 if [[ ! -z "$EXTRA_CMD" ]]; then
     printf "Executing Extra Commands\n"
     eval "${EXTRA_CMD}"
-    cd /home/runner/builder || exit
+    cd /home/runner/OrangeFox_10 || exit
 fi
 echo "::endgroup::"
 
-echo "::group::Pre-Compilation"
+echo "::group::Compilation"
 printf "Compiling Recovery...\n"
 export ALLOW_MISSING_DEPENDENCIES=true
 
@@ -137,17 +138,13 @@ export ALLOW_MISSING_DEPENDENCIES=true
 # >> https://gist.github.com/rokibhasansagar/247ddd4ef00dcc9d3340397322051e6a/
 # and then `source` and `lunch` again
 
-source build/envsetup.sh
-lunch omni_${CODENAME}-${FLAVOR} || { printf "Compilation failed.\n"; exit 1; }
-echo "::endgroup::"
-
-echo "::group::Compilation"
-mka recoveryimage || { printf "Compilation failed.\n"; exit 1; }
+cd ~/OrangeFox_10/sync
+./build_fox.sh ${CODENAME} || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
 # Export VENDOR, CODENAME and BuildPath for next steps
 echo "VENDOR=${VENDOR}" >> ${GITHUB_ENV}
 echo "CODENAME=${CODENAME}" >> ${GITHUB_ENV}
-echo "BuildPath=/home/runner/builder" >> ${GITHUB_ENV}
+echo "BuildPath=/home/runner/OrangeFox_10" >> ${GITHUB_ENV}
 
 # TODO:: Add GitHub Release Script Here
