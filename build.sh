@@ -95,21 +95,20 @@ python --version
 python3 --version
 python2 --version
 printf "Getting OrangeFox manifest (this can take up to 1 hour, and can use up to 40GB of disk space)"
-mkdir ~/OrangeFox_10 && cd ~/OrangeFox_10
-mkdir sync
-cd ~/OrangeFox_10/sync
+mkdir ~/fox_10.0
+cd ~/fox_10.0
 wget https://gitlab.com/OrangeFox/sync/-/raw/master/legacy/orangefox_sync_legacy.sh
 wget https://gitlab.com/OrangeFox/sync/-/raw/master/legacy/build_fox.sh
 chmod +x orangefox_sync_legacy.sh
 chmod +x build_fox.sh
 mkdir patches
 wget -O patches/patch-manifest-fox_10.0.diff https://gitlab.com/OrangeFox/sync/-/raw/master/patches/patch-manifest-fox_10.0.diff
-./orangefox_sync_legacy.sh --branch 10.0 --path ~/OrangeFox_10/fox_10.0 || { printf "Compilation failed.\n"; exit 1; }
+./orangefox_sync_legacy.sh --branch 10.0 --path ~/fox_10.0 || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
 echo "::group::Device and Kernel Tree Cloning"
 printf "Cloning Device Tree\n"
-cd ~/OrangeFox_10/sync/fox_10.0
+cd ~/fox_10.0
 git clone ${DT_LINK} --depth=1 device/${VENDOR}/${CODENAME}
 # omni.dependencies file is a must inside DT, otherwise lunch fails
 [[ ! -f device/${VENDOR}/${CODENAME}/omni.dependencies ]] && printf "[\n]\n" > device/${VENDOR}/${CODENAME}/omni.dependencies
@@ -125,7 +124,7 @@ echo "::group::Extra Commands"
 if [[ ! -z "$EXTRA_CMD" ]]; then
     printf "Executing Extra Commands\n"
     eval "${EXTRA_CMD}"
-    cd /home/runner/OrangeFox_10 || exit
+    cd /home/runner/fox_10.0 || exit
 fi
 echo "::endgroup::"
 
@@ -138,13 +137,13 @@ export ALLOW_MISSING_DEPENDENCIES=true
 # >> https://gist.github.com/rokibhasansagar/247ddd4ef00dcc9d3340397322051e6a/
 # and then `source` and `lunch` again
 
-cd ~/OrangeFox_10/sync
+cd ~/fox_10.0
 ./build_fox.sh ${CODENAME} || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
 # Export VENDOR, CODENAME and BuildPath for next steps
 echo "VENDOR=${VENDOR}" >> ${GITHUB_ENV}
 echo "CODENAME=${CODENAME}" >> ${GITHUB_ENV}
-echo "BuildPath=/home/runner/OrangeFox_10" >> ${GITHUB_ENV}
+echo "BuildPath=/home/runner/fox_10.0" >> ${GITHUB_ENV}
 
 # TODO:: Add GitHub Release Script Here
