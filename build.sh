@@ -96,7 +96,7 @@ python3 --version
 python2 --version
 printf "Getting OrangeFox manifest (this can take up to 1 hour, and can use up to 40GB of disk space)"
 mkdir ~/OrangeFox_10 && cd ~/OrangeFox_10
-git clone https://github.com/Ctapchuk/OFRP_manifest_sync.git
+git clone https://github.com/Ctapchuk/OFRP_manifest_sync.git sync
 cd ~/OrangeFox_10/sync
 ./get_fox_10.sh ~/OrangeFox_10/fox_10.0
 cd ~/OrangeFox_10/fox_10.0/bootable/recovery
