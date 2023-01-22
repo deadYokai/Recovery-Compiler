@@ -35,6 +35,10 @@ fi
 export TARGET=${TARGET:-recoveryimage}
 # Default FLAVOR will be eng if not provided
 export FLAVOR=${FLAVOR:-eng}
+
+export VENDOR_REPO=${VENDOR_REPO}
+printf "Using %s as vendor" "${VENDOR_REPO}"
+
 # Default TZ (Timezone) will be set as UTC if not provided
 export TZ=${TZ:-UTC}
 if [[ ! ${TZ} == "UTC" ]]; then
