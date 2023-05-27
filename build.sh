@@ -145,7 +145,10 @@ export ALLOW_MISSING_DEPENDENCIES=true
 # >> https://gist.github.com/rokibhasansagar/247ddd4ef00dcc9d3340397322051e6a/
 # and then `source` and `lunch` again
 
+printf "Setting source\n"
 source build/envsetup.sh
+
+printf "Lunch command...\n"
 lunch omni_${CODENAME}-${FLAVOR} || { printf "Compilation failed.\n"; exit 1; }
 echo "::endgroup::"
 
