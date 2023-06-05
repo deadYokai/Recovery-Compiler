@@ -112,10 +112,17 @@ echo "::endgroup::"
 
 echo "::group::Device and Kernel Tree Cloning"
 printf "Cloning Device Tree\n"
-if [[ ! -z "${VENDOR_REPO}" ]]; then
-    printf "Using Vendor Repo\n"
-    git clone ${VENDOR_REPO} --depth=1 vendor/${VENDOR}/${CODENAME}
-fi
+
+#
+# exists in omni.dependencies
+#
+#if [[ ! -z "${VENDOR_REPO}" ]]; then
+#    printf "Using Vendor Repo\n"
+#    git clone ${VENDOR_REPO} --depth=1 vendor/${VENDOR}/${CODENAME}
+#fi
+#
+#
+
 git clone ${DT_LINK} --depth=1 device/${VENDOR}/${CODENAME}
 # omni.dependencies file is a must inside DT, otherwise lunch fails
 [[ ! -f device/${VENDOR}/${CODENAME}/omni.dependencies ]] && printf "[\n]\n" > device/${VENDOR}/${CODENAME}/omni.dependencies
